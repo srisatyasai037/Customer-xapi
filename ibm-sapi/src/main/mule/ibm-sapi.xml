@@ -129,6 +129,6 @@ output application/json
     <flow name="get:\ibm:ibm-sapi-config">
 		<logger level="INFO" doc:name="Logger" doc:id="ad401bf9-500a-4347-b5e0-f925944a28ba" message="flow begin::::::::::::::::::::"/>
 		<http:request method="GET" doc:name="Request" doc:id="a359a627-a796-4671-a4fc-4b07cd7799a2" config-ref="HTTP_Request_configuration" path="/api/customer"/>
-		<logger level="INFO" doc:name="Logger" doc:id="e936a800-4d28-499c-a278-a8ae07de611f" message="#[payload]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="e936a800-4d28-499c-a278-a8ae07de611f" message="flow ended:::"/>
     </flow>
 </mule>
