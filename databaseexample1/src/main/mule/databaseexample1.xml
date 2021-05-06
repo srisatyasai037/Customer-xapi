@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="5b604443-2e77-426f-a12a-a9b77d96b5b0" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="699b6f66-d014-4640-b019-45fa9c1a7425" >
+		<db:my-sql-connection host="localhost" port="3306" user="root" password="Mulesoft@123" database="dbtest" />
+	</db:config>
+	<flow name="databaseexample1Flow" doc:id="34dd931d-21c8-44e9-bc51-3d0dbc8c40f1" >
+		<http:listener doc:name="Listener" doc:id="d14ab145-b3b4-4e1e-af4f-6e624361f211" config-ref="HTTP_Listener_config" path="/db"/>
+		<db:select doc:name="Select" doc:id="c75e5088-e761-4910-8c3e-213e21c5e1f4" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT * FROM dbtest.company where eid=1;]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="51bd54a0-905c-4c7d-8d99-ccbc33980428" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="7980de3d-0aa0-4c83-b265-519dca36723c" message="#[payload]" />
+	</flow>
+</mule>
